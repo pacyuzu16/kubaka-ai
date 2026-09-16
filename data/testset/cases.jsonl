@@ -1,0 +1,20 @@
+{"id": "EN-001", "language": "en", "input": "The boom is leaking oil and moves very slowly", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "clear, two symptoms"}
+{"id": "EN-002", "language": "en", "input": "it wont start this morning, just clicks", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "colloquial"}
+{"id": "EN-003", "language": "en", "input": "temperature gauge is in the red and there is steam", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "clear"}
+{"id": "EN-004", "language": "en", "input": "bucket drops on its own when I park it", "gold_category": "hydraulic", "gold_subcategory": "hyd_drift", "gold_urgency": "critical", "notes": "safety critical"}
+{"id": "EN-005", "language": "en", "input": "its not working properly", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "TOO VAGUE - expect needs_human=true"}
+{"id": "EN-006", "language": "en", "input": "oil", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "extremely short - expect needs_human=true"}
+{"id": "EN-007", "language": "en", "input": "black smoke coming out when I push it hard", "gold_category": "engine", "gold_subcategory": "eng_smoke", "gold_urgency": "medium", "notes": "environmental relevance"}
+{"id": "EN-008", "language": "en", "input": "track is loose and slapping", "gold_category": "undercarriage", "gold_subcategory": "und_tension", "gold_urgency": "medium", "notes": "clear"}
+{"id": "EN-009", "language": "en", "input": "battery keeps dying every night", "gold_category": "electrical", "gold_subcategory": "ele_charge", "gold_urgency": "medium", "notes": "misleading - operator blames battery"}
+{"id": "EN-010", "language": "en", "input": "there is a crack in the arm near the weld", "gold_category": "structure", "gold_subcategory": "str_crack", "gold_urgency": "critical", "notes": "stop work"}
+{"id": "FR-001", "language": "fr", "input": "la fleche fuit de l'huile et bouge lentement", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "French"}
+{"id": "FR-002", "language": "fr", "input": "le moteur chauffe beaucoup et perd de la puissance", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "French, two symptoms"}
+{"id": "FR-003", "language": "fr", "input": "la machine ne demarre pas ce matin", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "French"}
+{"id": "FR-004", "language": "fr", "input": "il y a de la fumee noire", "gold_category": "engine", "gold_subcategory": "eng_smoke", "gold_urgency": "medium", "notes": "French"}
+{"id": "RW-001", "language": "rw", "input": "iri kuvuza amavuta kandi ukuboko kugenda buhoro", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "Kinyarwanda"}
+{"id": "RW-002", "language": "rw", "input": "imashini ntitangira mu gitondo", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "Kinyarwanda"}
+{"id": "RW-003", "language": "rw", "input": "moteri irashyuha cyane", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "Kinyarwanda"}
+{"id": "SW-001", "language": "sw", "input": "mashine inavuja mafuta chini", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "Swahili"}
+{"id": "SW-002", "language": "sw", "input": "injini inapata joto sana na inatoa moshi", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "Swahili, two symptoms"}
+{"id": "MX-001", "language": "rw", "input": "the moteri ntitangira na battery ni weak", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "MIXED language - hard case"}

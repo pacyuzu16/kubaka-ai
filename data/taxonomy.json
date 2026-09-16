@@ -1,0 +1,840 @@
+{
+  "meta": {
+    "name": "KUBAKA AI Construction Equipment Fault Taxonomy",
+    "version": "0.1.0",
+    "languages": [
+      "en",
+      "fr",
+      "rw",
+      "sw"
+    ],
+    "note": "Authored independently by Team KUBAKA AI from general engineering knowledge. Contains no manufacturer-proprietary content.",
+    "urgency_scale": {
+      "critical": "Stop the machine now. Risk to safety, environment, or catastrophic damage.",
+      "high": "Cease work; service within 24h.",
+      "medium": "Machine usable with care; service within days.",
+      "low": "Monitor; schedule at next routine service."
+    }
+  },
+  "categories": [
+    {
+      "id": "hydraulic",
+      "zh": "液压系统",
+      "en": "Hydraulic System",
+      "subcategories": [
+        {
+          "id": "hyd_leak",
+          "zh": "液压油泄漏",
+          "en": "Hydraulic oil leak",
+          "symptoms": [
+            "visible oil on machine or ground",
+            "oil smell",
+            "falling reservoir level",
+            "wet hoses or fittings"
+          ],
+          "causes": [
+            "ruptured or chafed hose",
+            "failed seal or O-ring",
+            "loose fitting",
+            "cracked cylinder rod seal"
+          ],
+          "parts": [
+            "hydraulic hose",
+            "seal kit",
+            "O-ring set",
+            "fitting"
+          ],
+          "urgency": "high",
+          "environmental": "Soil and groundwater contamination. Contain spill immediately."
+        },
+        {
+          "id": "hyd_slow",
+          "zh": "动作迟缓",
+          "en": "Slow or weak actuation",
+          "symptoms": [
+            "boom or arm moves slowly",
+            "loss of lifting force",
+            "sluggish under load"
+          ],
+          "causes": [
+            "low fluid level",
+            "worn pump",
+            "clogged filter",
+            "relief valve set low",
+            "internal cylinder leakage"
+          ],
+          "parts": [
+            "hydraulic filter",
+            "hydraulic fluid",
+            "pump",
+            "relief valve"
+          ],
+          "urgency": "medium",
+          "environmental": "Degraded hydraulics raise engine load and fuel burn."
+        },
+        {
+          "id": "hyd_pressure",
+          "zh": "压力损失",
+          "en": "Pressure loss",
+          "symptoms": [
+            "no lift",
+            "gauge reads low",
+            "function stops under load"
+          ],
+          "causes": [
+            "pump failure",
+            "stuck relief valve",
+            "blocked suction line",
+            "air in system"
+          ],
+          "parts": [
+            "pump",
+            "relief valve",
+            "suction strainer"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "hyd_drift",
+          "zh": "油缸自沉",
+          "en": "Cylinder drift",
+          "symptoms": [
+            "boom or bucket sinks when parked",
+            "load will not hold position"
+          ],
+          "causes": [
+            "worn piston seal",
+            "failed holding valve",
+            "internal bypass"
+          ],
+          "parts": [
+            "cylinder seal kit",
+            "holding valve"
+          ],
+          "urgency": "critical",
+          "environmental": "Uncontrolled descent is a crush hazard."
+        },
+        {
+          "id": "hyd_noise",
+          "zh": "液压泵异响",
+          "en": "Pump noise / cavitation",
+          "symptoms": [
+            "whining or knocking from pump",
+            "foamy fluid",
+            "vibration"
+          ],
+          "causes": [
+            "air ingress",
+            "low fluid",
+            "blocked suction",
+            "worn pump"
+          ],
+          "parts": [
+            "suction hose",
+            "hydraulic fluid",
+            "pump"
+          ],
+          "urgency": "high",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "engine",
+      "zh": "发动机",
+      "en": "Engine",
+      "subcategories": [
+        {
+          "id": "eng_nostart",
+          "zh": "无法启动",
+          "en": "Will not start",
+          "symptoms": [
+            "cranks but does not fire",
+            "no crank",
+            "starts then dies"
+          ],
+          "causes": [
+            "fuel starvation",
+            "air in fuel line",
+            "clogged fuel filter",
+            "failed starter",
+            "dead battery",
+            "water in fuel"
+          ],
+          "parts": [
+            "fuel filter",
+            "fuel pump",
+            "starter motor",
+            "battery"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "eng_overheat",
+          "zh": "过热",
+          "en": "Overheating",
+          "symptoms": [
+            "high temperature gauge",
+            "steam",
+            "coolant loss",
+            "power derate"
+          ],
+          "causes": [
+            "low coolant",
+            "blocked radiator",
+            "failed thermostat",
+            "broken fan belt",
+            "failed water pump"
+          ],
+          "parts": [
+            "coolant",
+            "thermostat",
+            "fan belt",
+            "water pump",
+            "radiator"
+          ],
+          "urgency": "critical",
+          "environmental": "Overheating causes severe engine damage and shortens machine life."
+        },
+        {
+          "id": "eng_smoke",
+          "zh": "排烟异常",
+          "en": "Abnormal exhaust smoke",
+          "symptoms": [
+            "black smoke",
+            "blue smoke",
+            "white smoke"
+          ],
+          "causes": [
+            "clogged air filter",
+            "faulty injector",
+            "worn rings",
+            "coolant in combustion chamber",
+            "poor fuel quality"
+          ],
+          "parts": [
+            "air filter",
+            "injector",
+            "fuel filter"
+          ],
+          "urgency": "medium",
+          "environmental": "Direct particulate and emissions impact; raises fuel consumption."
+        },
+        {
+          "id": "eng_power",
+          "zh": "动力不足",
+          "en": "Power loss",
+          "symptoms": [
+            "cannot maintain rpm under load",
+            "slow response",
+            "stalls under load"
+          ],
+          "causes": [
+            "clogged fuel or air filter",
+            "turbo fault",
+            "injector wear",
+            "derate from fault code"
+          ],
+          "parts": [
+            "fuel filter",
+            "air filter",
+            "turbocharger",
+            "injector"
+          ],
+          "urgency": "medium",
+          "environmental": "Inefficient combustion increases fuel use per hour worked."
+        },
+        {
+          "id": "eng_noise",
+          "zh": "发动机异响",
+          "en": "Abnormal engine noise",
+          "symptoms": [
+            "knocking",
+            "tapping",
+            "rattle on acceleration"
+          ],
+          "causes": [
+            "low oil pressure",
+            "worn bearings",
+            "valve clearance",
+            "injector timing"
+          ],
+          "parts": [
+            "engine oil",
+            "bearing set"
+          ],
+          "urgency": "critical",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "undercarriage",
+      "zh": "行走装置",
+      "en": "Undercarriage",
+      "subcategories": [
+        {
+          "id": "und_tension",
+          "zh": "履带张紧异常",
+          "en": "Track tension fault",
+          "symptoms": [
+            "track sagging",
+            "track too tight",
+            "track slaps"
+          ],
+          "causes": [
+            "grease loss in tensioner",
+            "worn components",
+            "packed mud"
+          ],
+          "parts": [
+            "track adjuster",
+            "grease"
+          ],
+          "urgency": "medium",
+          "environmental": "Incorrect tension accelerates wear and shortens component life."
+        },
+        {
+          "id": "und_roller",
+          "zh": "支重轮磨损",
+          "en": "Roller wear or leak",
+          "symptoms": [
+            "oil around roller",
+            "flat spots",
+            "squealing"
+          ],
+          "causes": [
+            "seal failure",
+            "abrasive ground",
+            "overloading"
+          ],
+          "parts": [
+            "track roller",
+            "seal"
+          ],
+          "urgency": "medium",
+          "environmental": "Roller oil seepage contaminates soil."
+        },
+        {
+          "id": "und_sprocket",
+          "zh": "驱动轮损坏",
+          "en": "Sprocket damage",
+          "symptoms": [
+            "pointed or hooked teeth",
+            "chain jumping",
+            "noise under load"
+          ],
+          "causes": [
+            "normal wear",
+            "misalignment",
+            "running with loose track"
+          ],
+          "parts": [
+            "sprocket segment",
+            "track chain"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "und_align",
+          "zh": "跑偏",
+          "en": "Tracking / misalignment",
+          "symptoms": [
+            "machine pulls to one side",
+            "uneven wear"
+          ],
+          "causes": [
+            "unequal tension",
+            "travel motor imbalance",
+            "bent idler"
+          ],
+          "parts": [
+            "idler",
+            "travel motor"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "und_tyre",
+          "zh": "轮胎故障",
+          "en": "Tyre fault (wheeled machines)",
+          "symptoms": [
+            "pressure loss",
+            "uneven wear",
+            "sidewall damage"
+          ],
+          "causes": [
+            "puncture",
+            "valve leak",
+            "overload",
+            "misalignment"
+          ],
+          "parts": [
+            "tyre",
+            "valve"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "electrical",
+      "zh": "电气系统",
+      "en": "Electrical System",
+      "subcategories": [
+        {
+          "id": "ele_battery",
+          "zh": "蓄电池故障",
+          "en": "Battery fault",
+          "symptoms": [
+            "slow crank",
+            "dash dim",
+            "no power"
+          ],
+          "causes": [
+            "aged battery",
+            "corroded terminals",
+            "parasitic drain"
+          ],
+          "parts": [
+            "battery",
+            "terminal clamp"
+          ],
+          "urgency": "medium",
+          "environmental": "Lead-acid batteries require proper disposal."
+        },
+        {
+          "id": "ele_charge",
+          "zh": "充电系统故障",
+          "en": "Charging fault",
+          "symptoms": [
+            "warning lamp",
+            "battery flat each morning"
+          ],
+          "causes": [
+            "failed alternator",
+            "slipping belt",
+            "bad regulator"
+          ],
+          "parts": [
+            "alternator",
+            "belt",
+            "regulator"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "ele_wiring",
+          "zh": "线路故障",
+          "en": "Wiring / connector fault",
+          "symptoms": [
+            "intermittent function",
+            "blown fuses",
+            "burning smell"
+          ],
+          "causes": [
+            "chafed loom",
+            "water ingress",
+            "rodent damage",
+            "corroded pin"
+          ],
+          "parts": [
+            "wiring loom",
+            "connector",
+            "fuse"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "ele_sensor",
+          "zh": "传感器故障",
+          "en": "Sensor fault",
+          "symptoms": [
+            "implausible gauge reading",
+            "fault code",
+            "derate"
+          ],
+          "causes": [
+            "failed sensor",
+            "open circuit",
+            "contamination"
+          ],
+          "parts": [
+            "sensor"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "ele_display",
+          "zh": "显示与仪表故障",
+          "en": "Display / instrument fault",
+          "symptoms": [
+            "blank screen",
+            "error code",
+            "flicker"
+          ],
+          "causes": [
+            "supply fault",
+            "controller failure",
+            "moisture"
+          ],
+          "parts": [
+            "display unit",
+            "controller"
+          ],
+          "urgency": "low",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "transmission",
+      "zh": "传动系统",
+      "en": "Transmission / Drivetrain",
+      "subcategories": [
+        {
+          "id": "trn_slip",
+          "zh": "打滑",
+          "en": "Slipping",
+          "symptoms": [
+            "engine revs without motion",
+            "loss of drive on slope"
+          ],
+          "causes": [
+            "low fluid",
+            "worn clutch pack",
+            "pressure fault"
+          ],
+          "parts": [
+            "transmission fluid",
+            "clutch pack"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "trn_noise",
+          "zh": "传动异响",
+          "en": "Drivetrain noise",
+          "symptoms": [
+            "whine",
+            "grinding",
+            "clunk on direction change"
+          ],
+          "causes": [
+            "worn gears",
+            "low lubricant",
+            "bearing failure"
+          ],
+          "parts": [
+            "gear set",
+            "bearing",
+            "lubricant"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "trn_fluid",
+          "zh": "油液异常",
+          "en": "Fluid condition fault",
+          "symptoms": [
+            "burnt smell",
+            "milky fluid",
+            "metal particles"
+          ],
+          "causes": [
+            "overheating",
+            "water ingress",
+            "internal wear"
+          ],
+          "parts": [
+            "transmission fluid",
+            "filter"
+          ],
+          "urgency": "high",
+          "environmental": "Contaminated fluid must be captured, not drained to ground."
+        },
+        {
+          "id": "trn_shift",
+          "zh": "换挡故障",
+          "en": "Shifting fault",
+          "symptoms": [
+            "will not select gear",
+            "harsh shift",
+            "stuck in gear"
+          ],
+          "causes": [
+            "solenoid fault",
+            "linkage wear",
+            "controller fault"
+          ],
+          "parts": [
+            "solenoid",
+            "linkage"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "trn_brake",
+          "zh": "制动异常",
+          "en": "Brake fault",
+          "symptoms": [
+            "long stopping distance",
+            "brake drag",
+            "warning lamp"
+          ],
+          "causes": [
+            "worn discs",
+            "pressure loss",
+            "contaminated fluid"
+          ],
+          "parts": [
+            "brake disc",
+            "brake fluid"
+          ],
+          "urgency": "critical",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "zh": "结构与附件",
+      "en": "Structure & Attachments",
+      "subcategories": [
+        {
+          "id": "str_bucket",
+          "zh": "铲斗磨损",
+          "en": "Bucket / edge wear",
+          "symptoms": [
+            "worn teeth",
+            "cracked edge",
+            "reduced fill"
+          ],
+          "causes": [
+            "abrasive material",
+            "normal wear",
+            "impact damage"
+          ],
+          "parts": [
+            "bucket tooth",
+            "cutting edge",
+            "adapter"
+          ],
+          "urgency": "low",
+          "environmental": "Worn buckets need more passes, raising fuel per tonne moved."
+        },
+        {
+          "id": "str_pin",
+          "zh": "销轴与衬套间隙",
+          "en": "Pin & bushing play",
+          "symptoms": [
+            "knocking on direction change",
+            "visible movement at joints"
+          ],
+          "causes": [
+            "wear",
+            "poor greasing",
+            "overloading"
+          ],
+          "parts": [
+            "pin",
+            "bushing",
+            "grease"
+          ],
+          "urgency": "medium",
+          "environmental": null
+        },
+        {
+          "id": "str_crack",
+          "zh": "结构裂纹",
+          "en": "Structural crack",
+          "symptoms": [
+            "visible crack in boom, arm or frame",
+            "paint line cracking"
+          ],
+          "causes": [
+            "fatigue",
+            "overloading",
+            "prior poor repair"
+          ],
+          "parts": [
+            "welding repair"
+          ],
+          "urgency": "critical",
+          "environmental": "Structural failure is a severe safety risk. Stop work."
+        },
+        {
+          "id": "str_coupler",
+          "zh": "快换装置故障",
+          "en": "Quick coupler fault",
+          "symptoms": [
+            "attachment loose",
+            "will not lock",
+            "warning"
+          ],
+          "causes": [
+            "worn locking pin",
+            "hydraulic fault",
+            "debris"
+          ],
+          "parts": [
+            "coupler pin",
+            "seal"
+          ],
+          "urgency": "critical",
+          "environmental": null
+        },
+        {
+          "id": "str_cab",
+          "zh": "驾驶室与防护",
+          "en": "Cab & guarding",
+          "symptoms": [
+            "broken glass",
+            "damaged guard",
+            "seat or belt fault"
+          ],
+          "causes": [
+            "impact",
+            "vandalism",
+            "wear"
+          ],
+          "parts": [
+            "glass",
+            "guard",
+            "seat belt"
+          ],
+          "urgency": "high",
+          "environmental": null
+        }
+      ]
+    },
+    {
+      "id": "new_energy",
+      "zh": "新能源系统",
+      "en": "New-Energy System",
+      "subcategories": [
+        {
+          "id": "nrg_soh",
+          "zh": "电池健康度下降",
+          "en": "Battery capacity / SOH decline",
+          "symptoms": [
+            "shorter run time",
+            "faster discharge",
+            "reduced range"
+          ],
+          "causes": [
+            "cell ageing",
+            "deep cycling",
+            "heat exposure"
+          ],
+          "parts": [
+            "battery module",
+            "BMS"
+          ],
+          "urgency": "medium",
+          "environmental": "Accurate SOH extends pack life and delays replacement."
+        },
+        {
+          "id": "nrg_charge",
+          "zh": "充电故障",
+          "en": "Charging fault",
+          "symptoms": [
+            "will not charge",
+            "charge stops early",
+            "slow charge"
+          ],
+          "causes": [
+            "charger fault",
+            "connector damage",
+            "BMS protection",
+            "supply fault"
+          ],
+          "parts": [
+            "charge connector",
+            "charger",
+            "BMS"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "nrg_thermal",
+          "zh": "热管理异常",
+          "en": "Thermal management fault",
+          "symptoms": [
+            "pack over-temperature",
+            "cooling fan constant",
+            "power derate"
+          ],
+          "causes": [
+            "coolant loss",
+            "pump fault",
+            "blocked exchanger",
+            "sensor fault"
+          ],
+          "parts": [
+            "coolant pump",
+            "sensor",
+            "heat exchanger"
+          ],
+          "urgency": "critical",
+          "environmental": "Thermal runaway risk. Isolate the machine."
+        },
+        {
+          "id": "nrg_motor",
+          "zh": "电机与驱动故障",
+          "en": "Traction motor / inverter fault",
+          "symptoms": [
+            "no drive",
+            "fault code",
+            "noise",
+            "derate"
+          ],
+          "causes": [
+            "inverter fault",
+            "motor winding fault",
+            "encoder fault"
+          ],
+          "parts": [
+            "inverter",
+            "motor",
+            "encoder"
+          ],
+          "urgency": "high",
+          "environmental": null
+        },
+        {
+          "id": "nrg_hv",
+          "zh": "高压安全告警",
+          "en": "HV safety / insulation warning",
+          "symptoms": [
+            "insulation warning",
+            "HV interlock fault"
+          ],
+          "causes": [
+            "moisture ingress",
+            "damaged HV cable",
+            "connector fault"
+          ],
+          "parts": [
+            "HV cable",
+            "connector"
+          ],
+          "urgency": "critical",
+          "environmental": "Electrocution risk. Do not open. Qualified technician only."
+        }
+      ]
+    }
+  ]
+}
