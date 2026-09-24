@@ -7,6 +7,42 @@ const els = {
 const LANG = { en:'English', fr:'Français', rw:'Kinyarwanda', sw:'Kiswahili' };
 let busy = false;
 
+
+/* ── theme ──────────────────────────────────────────────
+   Three states: explicit dark, explicit light, or unset
+   (follow the operating system). Only an explicit choice
+   is stored. */
+const themeBtn = $('#theme');
+function systemDark() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme')
+      || (systemDark() ? 'dark' : 'light');
+}
+themeBtn?.addEventListener('click', () => {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('kubaka-theme', next); } catch (e) {}
+});
+
+/* ── mobile tabs ────────────────────────────────────────
+   Below 860px the two columns become tabs. Above it they
+   sit side by side and these classes are inert. */
+const cols = { operator: $('#col-operator'), dealer: $('#col-dealer') };
+const tabBtns = [...document.querySelectorAll('.tabs button')];
+const tabDot = $('#tabdot');
+function showTab(name) {
+  tabBtns.forEach(b => b.classList.toggle('on', b.dataset.tab === name));
+  Object.entries(cols).forEach(([k, el]) => el?.classList.toggle('show', k === name));
+  if (name === 'dealer' && tabDot) tabDot.hidden = true;
+}
+tabBtns.forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+const isMobile = () => window.matchMedia('(max-width: 860px)').matches;
+function flagDealer() {
+  if (isMobile() && !cols.dealer?.classList.contains('show') && tabDot) tabDot.hidden = false;
+}
+
 /* ── health ── */
 fetch('/api/health').then(r => r.json()).then(d => {
   const s = $('#status');
@@ -146,10 +182,12 @@ async function send(text) {
     } else if (!d.subcategory) {
       els.abtext.textContent = `“${text}” could not be classified safely.`;
       show('abstain');
+      flagDealer();
       bubble(d.reply || 'We could not identify this fault. A technician will contact you.',
              'in', 'escalated to a human');
     } else {
       renderTicket(d);
+      flagDealer();
       bubble(d.reply, 'in',
              (d.needs_human ? 'flagged for review · ' : '') +
              `replied in ${LANG[d.language] || d.language}`);

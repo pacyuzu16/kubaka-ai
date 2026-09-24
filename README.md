@@ -133,7 +133,7 @@ src/config.py                 configuration
 eval/run_eval.py              evaluation run
 eval/analyse.py               analysis: wrong vs abstained, per language
 app/server.py                 demo server (standard library only)
-app/static/                   demo front-end (html / css / js)
+app/static/                   demo front-end — responsive, light/dark
 ```
 
 ## Team
