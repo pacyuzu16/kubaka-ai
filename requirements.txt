@@ -1,4 +1,8 @@
-anthropic>=0.40.0
-streamlit>=1.38.0
+# Core — needed for every backend
 python-dotenv>=1.0.0
-google-genai>=1.0.0 ; python_version >= "3.9"
+streamlit>=1.38.0
+
+# Backends are optional. The default (claude_cli) needs NEITHER of these:
+#   KUBAKA_BACKEND=claude_cli  ->  npm i -g @anthropic-ai/claude-code && claude login
+#   KUBAKA_BACKEND=gemini      ->  pip install google-genai
+#   KUBAKA_BACKEND=anthropic   ->  pip install anthropic

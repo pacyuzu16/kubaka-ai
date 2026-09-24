@@ -15,15 +15,12 @@ from src.config import TESTSET_PATH, ROOT
 from src.pipeline import classify
 from src.llm import which_backend
 
-
 def load_cases():
     with open(TESTSET_PATH, encoding="utf-8") as fh:
         return [json.loads(line) for line in fh if line.strip()]
 
-
 def pct(num, den):
     return 0.0 if den == 0 else 100.0 * num / den
-
 
 def main():
     ap = argparse.ArgumentParser()
@@ -45,11 +42,9 @@ def main():
                 "input": case["input"],
                 "gold_category": case["gold_category"],
                 "gold_subcategory": case["gold_subcategory"],
-                "gold_urgency": case["gold_urgency"],
                 "pred_language": out.language,
                 "pred_category": out.category,
                 "pred_subcategory": out.subcategory,
-                "pred_urgency": "",
                 "confidence": out.confidence,
                 "needs_human": out.needs_human,
                 "notes": case.get("notes", ""),
@@ -64,7 +59,6 @@ def main():
 
     cat_hit = sum(r["pred_category"] == r["gold_category"] for r in labelled)
     sub_hit = sum(r["pred_subcategory"] == r["gold_subcategory"] for r in labelled)
-    urg_hit = 0
     lang_hit = sum(r["pred_language"] == r["language"] for r in rows)
     abstain_ok = sum(r["needs_human"] for r in vague)
 
@@ -107,7 +101,6 @@ def main():
              "subcategory": pct(sub_hit, len(labelled)),
          }}, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nsaved -> {out_path.relative_to(ROOT)}")
-
 
 if __name__ == "__main__":
     main()

@@ -87,8 +87,16 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         p = sys.argv[1]
     else:
-        results = sorted((ROOT / "eval" / "results").glob("eval-*.json"))
+        # Pick the most COMPLETE run, not the most recent: a 2-case smoke
+        # test should never displace the full evaluation.
+        results = list((ROOT / "eval" / "results").glob("*.json"))
         if not results:
-            raise SystemExit("no eval results found")
-        p = results[-1]
+            raise SystemExit("no eval results found in eval/results/")
+        def n_rows(f):
+            try:
+                return len(json.loads(f.read_text(encoding="utf-8")).get("rows", []))
+            except Exception:
+                return -1
+        p = max(results, key=n_rows)
+        print(f"(using {p.name})\n")
     analyse(p)

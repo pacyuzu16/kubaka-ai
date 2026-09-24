@@ -4,6 +4,5 @@ __pycache__/
 .venv/
 venv/
 .DS_Store
-eval/results/*.json
-!eval/results/.gitkeep
+# evaluation results are evidence for the reported numbers — keep them
 .streamlit/secrets.toml

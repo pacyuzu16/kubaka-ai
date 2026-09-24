@@ -85,6 +85,11 @@ _BACKENDS = {
 
 
 def complete(prompt, max_tokens=1500):
+    """Run a prompt on the configured backend.
+
+    max_tokens is honoured by the anthropic backend; the claude_cli and
+    gemini backends use their own defaults and ignore it.
+    """
     fn = _BACKENDS.get(BACKEND)
     if fn is None:
         raise BackendError(f"Unknown KUBAKA_BACKEND={BACKEND!r}. Options: {', '.join(_BACKENDS)}")
