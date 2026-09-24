@@ -1,123 +1,97 @@
 """KUBAKA AI fault-triage pipeline.
 
-Operator message (any of 4 languages, optional photo)
-  -> language detection
-  -> symptom extraction
-  -> taxonomy mapping
-  -> cause ranking + parts + urgency
-  -> reply in the operator's language + dealer ticket
+Two entry points:
+
+  classify(text)  ONE model call. Language + symptoms + taxonomy mapping.
+                  Used by the evaluation harness — cheap enough to run
+                  across the whole test set on a free backend.
+
+  triage(text)    Full pipeline: classify, then rank causes and write a
+                  reply in the operator's language. Used for the demo.
 """
 import json
 import re
 from dataclasses import dataclass, asdict, field
 
-import anthropic
-
-from .config import API_KEY, MODEL_MAIN, MODEL_REASONING, LANGUAGES
+from .config import LANGUAGES
 from . import taxonomy
-
-_client = None
-
-
-def client():
-    global _client
-    if _client is None:
-        if not API_KEY:
-            raise RuntimeError("ANTHROPIC_API_KEY is not set. Copy .env.example to .env.")
-        _client = anthropic.Anthropic(api_key=API_KEY)
-    return _client
+from .llm import complete
 
 
 def _json_from(text):
-    """Models sometimes wrap JSON in prose or fences. Pull the object out."""
-    text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
+    """Pull a JSON object out of a model reply that may be fenced or prefaced."""
+    text = text.strip()
+    text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text, flags=re.MULTILINE).strip()
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         match = re.search(r"\{.*\}", text, re.DOTALL)
         if not match:
-            raise
+            raise ValueError(f"no JSON in reply: {text[:200]}")
         return json.loads(match.group(0))
-
-
-def _ask(prompt, model=MODEL_MAIN, max_tokens=1200):
-    msg = client().messages.create(
-        model=model,
-        max_tokens=max_tokens,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return msg.content[0].text
 
 
 @dataclass
 class Triage:
     input_text: str
     language: str = "en"
+    translation_en: str = ""
     symptoms: list = field(default_factory=list)
     category: str = ""
     subcategory: str = ""
     confidence: float = 0.0
+    needs_human: bool = False
+    reasoning: str = ""
     causes: list = field(default_factory=list)
     parts: list = field(default_factory=list)
     urgency: str = "medium"
     environmental: str = ""
+    immediate_action: str = ""
     reply: str = ""
-    needs_human: bool = False
 
     def to_ticket(self):
         return asdict(self)
 
 
-DETECT_AND_EXTRACT = """You are a diagnostic assistant for construction equipment \
-(excavators, loaders, dozers) used by operators in East Africa.
+CLASSIFY = """You triage faults on construction equipment (excavators, loaders, dozers) \
+for operators in East Africa.
 
-An operator sent this message. It may be in English, French, Kinyarwanda or Swahili, \
-may mix languages, may be very short, and will usually avoid technical terms.
+The operator's message may be in English, French, Kinyarwanda or Swahili. It may mix \
+languages, be very short, and will usually avoid technical terms.
 
 MESSAGE: "{text}"
 
-Return ONLY a JSON object:
+TAXONOMY OF FAULTS:
+{tax}
+
+Do all of this in one pass and return ONLY a JSON object:
 {{
   "language": "en|fr|rw|sw",
   "translation_en": "faithful English translation",
   "symptoms": ["short factual symptom phrases in English"],
-  "component_hints": ["parts of the machine implied, if any"],
-  "vague": true/false
-}}
-
-Do not diagnose yet. Extract only what the operator actually said."""
-
-
-MAP_TO_TAXONOMY = """Map these observed symptoms to exactly one leaf fault in the taxonomy.
-
-SYMPTOMS: {symptoms}
-COMPONENT HINTS: {hints}
-OPERATOR SAID (English): "{translation}"
-
-TAXONOMY:
-{tax}
-
-Return ONLY JSON:
-{{
-  "category": "<category id>",
-  "subcategory": "<leaf id>",
+  "category": "<category id from the taxonomy>",
+  "subcategory": "<leaf id from the taxonomy>",
   "confidence": 0.0-1.0,
   "reasoning": "one sentence",
   "needs_human": true/false
 }}
 
-Set needs_human true when the message is too vague to map safely, or when several \
-unrelated faults are described. Be honest with confidence — a low score is more \
-useful than a confident guess."""
+Rules:
+- Report only what the operator actually said as symptoms. Do not invent detail.
+- If the message is too vague to map safely, or describes several unrelated faults, \
+set needs_human true and leave category and subcategory as empty strings.
+- Be honest with confidence. A low score is more useful than a confident guess.
+- Watch for misdirection: operators often blame the wrong component. Classify from \
+the symptoms, not from their diagnosis."""
 
 
-RANK_CAUSES = """An equipment fault has been classified. Rank the likely causes for \
-THIS specific report and state what the operator should do now.
+RANK = """This equipment fault has been classified. Rank the likely causes for THIS \
+report and say what the operator should do now.
 
 OPERATOR SAID: "{translation}"
 SYMPTOMS: {symptoms}
 CLASSIFIED AS: {leaf_en} ({leaf_zh})
-KNOWN CAUSES FOR THIS FAULT: {causes}
+KNOWN CAUSES: {causes}
 TYPICAL PARTS: {parts}
 BASELINE URGENCY: {urgency}
 
@@ -129,7 +103,7 @@ Return ONLY JSON:
   "immediate_action": "what the operator should do right now"
 }}
 
-Adjust urgency up or down from the baseline if this specific report justifies it."""
+Move urgency off the baseline only if this specific report justifies it."""
 
 
 REPLY = """Write a short reply to a machine operator in {lang_name}.
@@ -141,64 +115,75 @@ What to do now: {action}
 Urgency: {urgency}
 
 Rules:
-- Reply ONLY in {lang_name}. No other language.
+- Reply ONLY in {lang_name}. No other language, no translation.
 - Plain, respectful, practical. Assume no technical training.
-- 3-4 short sentences maximum.
+- Three or four short sentences.
 - If urgency is critical, tell them clearly to stop using the machine.
 Return only the message text."""
 
 
-def triage(text, verbose=False):
-    """Run the full pipeline on one operator message."""
+def classify(text):
+    """One model call: language, symptoms, taxonomy mapping."""
+    data = _json_from(complete(CLASSIFY.format(text=text, tax=taxonomy.as_prompt_block())))
     result = Triage(input_text=text)
+    result.language = data.get("language", "en")
+    result.translation_en = data.get("translation_en", text)
+    result.symptoms = data.get("symptoms", []) or []
+    result.category = data.get("category", "") or ""
+    result.subcategory = data.get("subcategory", "") or ""
+    result.confidence = float(data.get("confidence", 0.0) or 0.0)
+    result.needs_human = bool(data.get("needs_human", False))
+    result.reasoning = data.get("reasoning", "") or ""
 
-    extracted = _json_from(_ask(DETECT_AND_EXTRACT.format(text=text)))
-    result.language = extracted.get("language", "en")
-    result.symptoms = extracted.get("symptoms", [])
-    translation = extracted.get("translation_en", text)
-    hints = extracted.get("component_hints", [])
-    if verbose:
-        print("[1] language:", result.language, "| symptoms:", result.symptoms)
-
-    mapped = _json_from(_ask(MAP_TO_TAXONOMY.format(
-        symptoms=result.symptoms, hints=hints, translation=translation,
-        tax=taxonomy.as_prompt_block())))
-    result.category = mapped.get("category", "")
-    result.subcategory = mapped.get("subcategory", "")
-    result.confidence = float(mapped.get("confidence", 0.0))
-    result.needs_human = bool(mapped.get("needs_human", False))
-    if verbose:
-        print("[2] ->", result.subcategory, f"({result.confidence:.2f})")
-
-    leaf = taxonomy.get(result.subcategory)
-    if leaf is None:
+    # A leaf id the taxonomy doesn't contain is a hallucination — treat as abstention.
+    if result.subcategory and taxonomy.get(result.subcategory) is None:
+        result.reasoning += f" [rejected unknown leaf {result.subcategory!r}]"
+        result.subcategory = ""
+        result.category = ""
         result.needs_human = True
-        result.reply = "We could not identify this fault automatically. A technician will contact you."
+    return result
+
+
+def triage(text, verbose=False):
+    """Full pipeline. Three calls when a fault is identified, one when it abstains."""
+    result = classify(text)
+    if verbose:
+        print(f"[1] {result.language} -> {result.subcategory or 'ABSTAIN'} ({result.confidence:.2f})")
+
+    leaf = taxonomy.get(result.subcategory) if result.subcategory else None
+    if leaf is None or result.needs_human:
+        result.needs_human = True
+        result.reply = "We could not identify this fault from the description. A technician will contact you."
         return result
 
-    ranked = _json_from(_ask(RANK_CAUSES.format(
-        translation=translation, symptoms=result.symptoms,
+    ranked = _json_from(complete(RANK.format(
+        translation=result.translation_en, symptoms=result.symptoms,
         leaf_en=leaf["en"], leaf_zh=leaf["zh"], causes=leaf["causes"],
-        parts=leaf["parts"], urgency=leaf["urgency"]), model=MODEL_REASONING))
-    result.causes = ranked.get("causes", [])
-    result.parts = ranked.get("parts", leaf["parts"])
-    result.urgency = ranked.get("urgency", leaf["urgency"])
+        parts=leaf["parts"], urgency=leaf["urgency"])))
+    result.causes = ranked.get("causes", []) or []
+    result.parts = ranked.get("parts") or leaf["parts"]
+    result.urgency = ranked.get("urgency") or leaf["urgency"]
+    result.immediate_action = ranked.get("immediate_action", "")
     result.environmental = leaf.get("environmental") or ""
-    action = ranked.get("immediate_action", "")
     if verbose:
-        print("[3] urgency:", result.urgency)
+        print(f"[2] urgency {result.urgency}, {len(result.causes)} causes")
 
     top = result.causes[0]["cause"] if result.causes else leaf["causes"][0]
-    result.reply = _ask(REPLY.format(
+    result.reply = complete(REPLY.format(
         lang_name=LANGUAGES.get(result.language, "English"), original=text,
-        leaf_en=leaf["en"], top_cause=top, action=action,
+        leaf_en=leaf["en"], top_cause=top, action=result.immediate_action,
         urgency=result.urgency), max_tokens=400).strip()
-
+    if verbose:
+        print(f"[3] replied in {result.language}")
     return result
 
 
 if __name__ == "__main__":
     import sys
-    msg = " ".join(sys.argv[1:]) or "iri kuvuza amavuta kandi ukuboko kugenda buhoro"
-    out = triage(msg, verbose=True)
-    print(json.dumps(out.to_ticket(), ensure_ascii=False, indent=2))
+    from .llm import health, which_backend
+    ok, msg = health()
+    print(f"backend: {msg}")
+    if not ok:
+        raise SystemExit(1)
+    msg_text = " ".join(sys.argv[1:]) or "iri kuvuza amavuta kandi ukuboko kugenda buhoro"
+    print(json.dumps(triage(msg_text, verbose=True).to_ticket(), ensure_ascii=False, indent=2))

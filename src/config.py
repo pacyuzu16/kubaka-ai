@@ -3,21 +3,19 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
-
 ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(ROOT / ".env")
+
 TAXONOMY_PATH = ROOT / "data" / "taxonomy.json"
 TESTSET_PATH = ROOT / "data" / "testset" / "cases.jsonl"
 
-API_KEY = os.getenv("ANTHROPIC_API_KEY")
+# claude_cli (free, default) | gemini (free tier) | anthropic (paid)
+BACKEND = os.getenv("KUBAKA_BACKEND", "claude_cli")
 
-# Reasoning-heavy step (cause ranking) vs. the rest of the pipeline.
-MODEL_MAIN = "claude-sonnet-5"
-MODEL_REASONING = "claude-opus-5"
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-LANGUAGES = {
-    "en": "English",
-    "fr": "French",
-    "rw": "Kinyarwanda",
-    "sw": "Swahili",
-}
+CLAUDE_CLI_MODEL = os.getenv("CLAUDE_CLI_MODEL", "sonnet")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+LANGUAGES = {"en": "English", "fr": "French", "rw": "Kinyarwanda", "sw": "Swahili"}
