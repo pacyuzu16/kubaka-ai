@@ -150,9 +150,17 @@ def triage(text, verbose=False):
     if verbose:
         print(f"[1] {result.language} -> {result.subcategory or 'ABSTAIN'} ({result.confidence:.2f})")
 
+    # Abstain only when there is genuinely no classification. The model
+    # also raises needs_human as a soft "have a person check this" flag
+    # while still returning its best guess — and in evaluation those
+    # guesses were usually correct, so discarding them would both lose
+    # useful output and make live behaviour diverge from the measured
+    # numbers. A flagged-but-classified ticket is shown, marked for review.
     leaf = taxonomy.get(result.subcategory) if result.subcategory else None
-    if leaf is None or result.needs_human:
+    if leaf is None:
         result.needs_human = True
+        result.subcategory = ""
+        result.category = ""
         result.reply = "We could not identify this fault from the description. A technician will contact you."
         return result
 

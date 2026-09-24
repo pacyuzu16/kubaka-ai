@@ -85,6 +85,7 @@ function renderTicket(d) {
       <span class="badge ${esc(d.urgency)}">${esc(d.urgency)}</span>
       <span class="tid">#${Math.random().toString(36).slice(2, 8).toUpperCase()}</span>
     </div>
+    ${d.needs_human ? `<div class="review">Flagged for human review — the system is not confident enough to act on this alone.</div>` : ''}
     <h3 class="tkname">${esc(d.subcategory)}</h3>
     <div class="tkcat">category: ${esc(d.category)} · reported in ${esc(LANG[d.language] || d.language)}</div>
 
@@ -142,14 +143,16 @@ async function send(text) {
       els.failed.textContent = 'Pipeline error: ' + (d.error || res.status);
       show('failed');
       bubble('Sorry — something went wrong. Please try again.', 'in');
-    } else if (d.needs_human || !d.subcategory) {
+    } else if (!d.subcategory) {
       els.abtext.textContent = `“${text}” could not be classified safely.`;
       show('abstain');
       bubble(d.reply || 'We could not identify this fault. A technician will contact you.',
              'in', 'escalated to a human');
     } else {
       renderTicket(d);
-      bubble(d.reply, 'in', `replied in ${LANG[d.language] || d.language}`);
+      bubble(d.reply, 'in',
+             (d.needs_human ? 'flagged for review · ' : '') +
+             `replied in ${LANG[d.language] || d.language}`);
     }
   } catch (err) {
     typingOff(); stopSteps(false);

@@ -72,7 +72,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", type=int, default=8000)
     args = ap.parse_args()
-    srv = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
+    try:
+        srv = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
+    except OSError as exc:
+        if exc.errno == 48:  # EADDRINUSE
+            print(f"Port {args.port} is already in use — an older server is still running.")
+            print("Stop it with:   pkill -f app.server")
+            print(f"Or use another port:   python -m app.server --port {args.port + 1}")
+            raise SystemExit(1)
+        raise
     print(f"KUBAKA AI demo  ->  http://localhost:{args.port}")
     print(f"backend: {which_backend()}")
     try:
