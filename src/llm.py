@@ -24,6 +24,21 @@ class BackendError(RuntimeError):
     pass
 
 
+def _claude_cli_env():
+    """Environment for the `claude` subprocess.
+
+    An ANTHROPIC_API_KEY in the environment takes precedence over the
+    claude.ai subscription login and makes the CLI refuse to run on it.
+    Many developers export that key in their shell profile for unrelated
+    work, so we strip it for this subprocess only — the user's shell is
+    left untouched.
+    """
+    env = os.environ.copy()
+    for key in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
+        env.pop(key, None)
+    return env
+
+
 def _complete_claude_cli(prompt, max_tokens=None):
     exe = shutil.which("claude")
     if not exe:
@@ -35,15 +50,18 @@ def _complete_claude_cli(prompt, max_tokens=None):
     proc = subprocess.run(
         [exe, "-p", prompt, "--model", CLAUDE_CLI_MODEL],
         capture_output=True, text=True, timeout=300,
-        stdin=subprocess.DEVNULL,
+        stdin=subprocess.DEVNULL, env=_claude_cli_env(),
     )
     out = (proc.stdout or "").strip()
-    if proc.returncode != 0 or not out:
-        err = (proc.stderr or out or "no output").strip()
-        if "authenticate" in err.lower() or "oauth" in err.lower():
-            raise BackendError("Claude CLI is not logged in. Run:  claude login")
-        raise BackendError(f"claude CLI failed: {err[:300]}")
-    return out
+    if out:
+        # The CLI prints advisory warnings to stderr; a usable answer on
+        # stdout means the call succeeded regardless of them.
+        return out
+    err = (proc.stderr or "no output").strip()
+    low = err.lower()
+    if "authenticate" in low or "oauth" in low or "log in" in low:
+        raise BackendError("Claude CLI is not logged in. Run:  claude login")
+    raise BackendError(f"claude CLI failed: {err[:300]}")
 
 
 def _complete_gemini(prompt, max_tokens=None):
