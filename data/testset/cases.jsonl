@@ -1,5 +1,5 @@
 {"id": "EN-001", "language": "en", "input": "The boom is leaking oil and moves very slowly", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "clear, two symptoms"}
-{"id": "EN-002", "language": "en", "input": "it wont start this morning, just clicks", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "colloquial"}
+{"id": "EN-002", "language": "en", "input": "it wont start this morning, just clicks", "gold_category": "electrical", "gold_subcategory": "ele_battery", "gold_urgency": "high", "notes": "no-crank, just clicks -> electrical per labelling convention"}
 {"id": "EN-003", "language": "en", "input": "temperature gauge is in the red and there is steam", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "clear"}
 {"id": "EN-004", "language": "en", "input": "bucket drops on its own when I park it", "gold_category": "hydraulic", "gold_subcategory": "hyd_drift", "gold_urgency": "critical", "notes": "safety critical"}
 {"id": "EN-005", "language": "en", "input": "its not working properly", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "TOO VAGUE - expect needs_human=true"}
@@ -18,3 +18,45 @@
 {"id": "SW-001", "language": "sw", "input": "mashine inavuja mafuta chini", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "Swahili"}
 {"id": "SW-002", "language": "sw", "input": "injini inapata joto sana na inatoa moshi", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "Swahili, two symptoms"}
 {"id": "MX-001", "language": "rw", "input": "the moteri ntitangira na battery ni weak", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "MIXED language - hard case"}
+{"id": "EN-011", "language": "en", "input": "it cranks and cranks but never fires", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "cranks-no-fire -> engine"}
+{"id": "EN-012", "language": "en", "input": "completely dead, no lights, nothing happens", "gold_category": "electrical", "gold_subcategory": "ele_battery", "gold_urgency": "medium", "notes": "no-crank -> electrical"}
+{"id": "EN-013", "language": "en", "input": "the bucket wont hold, it sinks down slowly overnight", "gold_category": "hydraulic", "gold_subcategory": "hyd_drift", "gold_urgency": "critical", "notes": "safety"}
+{"id": "EN-014", "language": "en", "input": "pump is whining loud and the oil looks foamy", "gold_category": "hydraulic", "gold_subcategory": "hyd_noise", "gold_urgency": "high", "notes": "cavitation"}
+{"id": "EN-015", "language": "en", "input": "no lifting power at all, gauge shows almost nothing", "gold_category": "hydraulic", "gold_subcategory": "hyd_pressure", "gold_urgency": "high", "notes": ""}
+{"id": "EN-016", "language": "en", "input": "small puddle of oil under the machine every morning", "gold_category": "hydraulic", "gold_subcategory": "hyd_leak", "gold_urgency": "high", "notes": "environmental"}
+{"id": "EN-017", "language": "en", "input": "engine knocking badly when I accelerate", "gold_category": "engine", "gold_subcategory": "eng_noise", "gold_urgency": "critical", "notes": ""}
+{"id": "EN-018", "language": "en", "input": "loses power going uphill, cant keep the revs", "gold_category": "engine", "gold_subcategory": "eng_power", "gold_urgency": "medium", "notes": ""}
+{"id": "EN-019", "language": "en", "input": "white smoke and coolant is disappearing", "gold_category": "engine", "gold_subcategory": "eng_overheat", "gold_urgency": "critical", "notes": "two systems"}
+{"id": "EN-020", "language": "en", "input": "the track came off while turning", "gold_category": "undercarriage", "gold_subcategory": "und_tension", "gold_urgency": "medium", "notes": ""}
+{"id": "EN-021", "language": "en", "input": "oil seeping around the bottom rollers", "gold_category": "undercarriage", "gold_subcategory": "und_roller", "gold_urgency": "medium", "notes": "environmental"}
+{"id": "EN-022", "language": "en", "input": "machine pulls to the left when I drive straight", "gold_category": "undercarriage", "gold_subcategory": "und_align", "gold_urgency": "medium", "notes": ""}
+{"id": "EN-023", "language": "en", "input": "teeth on the drive wheel look hooked and sharp", "gold_category": "undercarriage", "gold_subcategory": "und_sprocket", "gold_urgency": "medium", "notes": ""}
+{"id": "EN-024", "language": "en", "input": "warning light on and battery flat again this morning", "gold_category": "electrical", "gold_subcategory": "ele_charge", "gold_urgency": "medium", "notes": "misleading"}
+{"id": "EN-025", "language": "en", "input": "burning smell and the fuse keeps blowing", "gold_category": "electrical", "gold_subcategory": "ele_wiring", "gold_urgency": "high", "notes": "safety"}
+{"id": "EN-026", "language": "en", "input": "screen shows an error code and nothing responds", "gold_category": "electrical", "gold_subcategory": "ele_display", "gold_urgency": "low", "notes": ""}
+{"id": "EN-027", "language": "en", "input": "temperature gauge reads impossible values", "gold_category": "electrical", "gold_subcategory": "ele_sensor", "gold_urgency": "medium", "notes": "gauge vs real fault"}
+{"id": "EN-028", "language": "en", "input": "engine revs but machine barely moves", "gold_category": "transmission", "gold_subcategory": "trn_slip", "gold_urgency": "high", "notes": ""}
+{"id": "EN-029", "language": "en", "input": "grinding noise when I change direction", "gold_category": "transmission", "gold_subcategory": "trn_noise", "gold_urgency": "high", "notes": ""}
+{"id": "EN-030", "language": "en", "input": "brakes feel soft and it takes long to stop", "gold_category": "transmission", "gold_subcategory": "trn_brake", "gold_urgency": "critical", "notes": "safety"}
+{"id": "EN-031", "language": "en", "input": "the fluid smells burnt and looks milky", "gold_category": "transmission", "gold_subcategory": "trn_fluid", "gold_urgency": "high", "notes": "environmental"}
+{"id": "EN-032", "language": "en", "input": "there is a crack starting on the boom weld", "gold_category": "structure", "gold_subcategory": "str_crack", "gold_urgency": "critical", "notes": "stop work"}
+{"id": "EN-033", "language": "en", "input": "loud knocking at the joints when changing direction", "gold_category": "structure", "gold_subcategory": "str_pin", "gold_urgency": "medium", "notes": ""}
+{"id": "EN-034", "language": "en", "input": "the attachment is loose and wont lock properly", "gold_category": "structure", "gold_subcategory": "str_coupler", "gold_urgency": "critical", "notes": "safety"}
+{"id": "EN-035", "language": "en", "input": "bucket teeth are worn flat, taking more passes", "gold_category": "structure", "gold_subcategory": "str_bucket", "gold_urgency": "low", "notes": "environmental"}
+{"id": "EN-036", "language": "en", "input": "the electric machine only runs half a shift now", "gold_category": "new_energy", "gold_subcategory": "nrg_soh", "gold_urgency": "medium", "notes": "battery SOH"}
+{"id": "EN-037", "language": "en", "input": "it stops charging after a few minutes", "gold_category": "new_energy", "gold_subcategory": "nrg_charge", "gold_urgency": "high", "notes": ""}
+{"id": "EN-038", "language": "en", "input": "battery pack overheating warning and power cut back", "gold_category": "new_energy", "gold_subcategory": "nrg_thermal", "gold_urgency": "critical", "notes": "thermal runaway"}
+{"id": "EN-039", "language": "en", "input": "insulation warning on the high voltage system", "gold_category": "new_energy", "gold_subcategory": "nrg_hv", "gold_urgency": "critical", "notes": "electrocution risk"}
+{"id": "EN-040", "language": "en", "input": "no drive at all and an inverter fault code", "gold_category": "new_energy", "gold_subcategory": "nrg_motor", "gold_urgency": "high", "notes": ""}
+{"id": "FR-005", "language": "fr", "input": "le godet descend tout seul quand je le laisse en haut", "gold_category": "hydraulic", "gold_subcategory": "hyd_drift", "gold_urgency": "critical", "notes": "French safety"}
+{"id": "FR-006", "language": "fr", "input": "bruit de grincement quand je change de direction", "gold_category": "transmission", "gold_subcategory": "trn_noise", "gold_urgency": "high", "notes": "French"}
+{"id": "FR-007", "language": "fr", "input": "odeur de brule et le fusible saute", "gold_category": "electrical", "gold_subcategory": "ele_wiring", "gold_urgency": "high", "notes": "French"}
+{"id": "FR-008", "language": "fr", "input": "fissure sur la fleche pres de la soudure", "gold_category": "structure", "gold_subcategory": "str_crack", "gold_urgency": "critical", "notes": "French"}
+{"id": "FR-009", "language": "fr", "input": "la chenille est trop detendue et elle claque", "gold_category": "undercarriage", "gold_subcategory": "und_tension", "gold_urgency": "medium", "notes": "French"}
+{"id": "FR-010", "language": "fr", "input": "la batterie se vide chaque nuit", "gold_category": "electrical", "gold_subcategory": "ele_charge", "gold_urgency": "medium", "notes": "French misleading"}
+{"id": "FR-011", "language": "fr", "input": "perte de puissance en montee", "gold_category": "engine", "gold_subcategory": "eng_power", "gold_urgency": "medium", "notes": "French"}
+{"id": "FR-012", "language": "fr", "input": "il tourne mais ne demarre pas", "gold_category": "engine", "gold_subcategory": "eng_nostart", "gold_urgency": "high", "notes": "French cranks-no-fire"}
+{"id": "HD-001", "language": "en", "input": "something is wrong with it", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "TOO VAGUE"}
+{"id": "HD-002", "language": "en", "input": "noise", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "ONE WORD"}
+{"id": "HD-003", "language": "en", "input": "leaking oil AND brakes are soft AND wont start", "gold_category": "", "gold_subcategory": "", "gold_urgency": "", "notes": "MULTIPLE UNRELATED FAULTS"}
+{"id": "HD-004", "language": "en", "input": "my operator says the pump is broken, replace the pump", "gold_category": "hydraulic", "gold_subcategory": "hyd_pressure", "gold_urgency": "high", "notes": "operator self-diagnoses - test misdirection"}

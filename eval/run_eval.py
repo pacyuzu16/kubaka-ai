@@ -12,7 +12,8 @@ from datetime import datetime
 from pathlib import Path
 
 from src.config import TESTSET_PATH, ROOT
-from src.pipeline import triage
+from src.pipeline import classify
+from src.llm import which_backend
 
 
 def load_cases():
@@ -37,7 +38,7 @@ def main():
     for i, case in enumerate(cases, 1):
         print(f"[{i}/{len(cases)}] {case['id']}: {case['input'][:55]}")
         try:
-            out = triage(case["input"])
+            out = classify(case["input"])
             rows.append({
                 "id": case["id"],
                 "language": case["language"],
@@ -48,7 +49,7 @@ def main():
                 "pred_language": out.language,
                 "pred_category": out.category,
                 "pred_subcategory": out.subcategory,
-                "pred_urgency": out.urgency,
+                "pred_urgency": "",
                 "confidence": out.confidence,
                 "needs_human": out.needs_human,
                 "notes": case.get("notes", ""),
@@ -63,18 +64,18 @@ def main():
 
     cat_hit = sum(r["pred_category"] == r["gold_category"] for r in labelled)
     sub_hit = sum(r["pred_subcategory"] == r["gold_subcategory"] for r in labelled)
-    urg_hit = sum(r["pred_urgency"] == r["gold_urgency"] for r in labelled)
+    urg_hit = 0
     lang_hit = sum(r["pred_language"] == r["language"] for r in rows)
     abstain_ok = sum(r["needs_human"] for r in vague)
 
     print("\n" + "=" * 62)
-    print("KUBAKA AI — evaluation")
+    print(f"KUBAKA AI — evaluation   (backend: {which_backend()})")
     print("=" * 62)
     print(f"cases run          {len(rows)}   (errors: {len(errors)})")
     print(f"language detect    {pct(lang_hit, len(rows)):5.1f}%   ({lang_hit}/{len(rows)})")
     print(f"category accuracy  {pct(cat_hit, len(labelled)):5.1f}%   ({cat_hit}/{len(labelled)})")
     print(f"subcategory        {pct(sub_hit, len(labelled)):5.1f}%   ({sub_hit}/{len(labelled)})")
-    print(f"urgency            {pct(urg_hit, len(labelled)):5.1f}%   ({urg_hit}/{len(labelled)})")
+
     if vague:
         print(f"correct abstention {pct(abstain_ok, len(vague)):5.1f}%   ({abstain_ok}/{len(vague)} vague cases flagged)")
 
@@ -104,7 +105,6 @@ def main():
              "n": len(rows), "language": pct(lang_hit, len(rows)),
              "category": pct(cat_hit, len(labelled)),
              "subcategory": pct(sub_hit, len(labelled)),
-             "urgency": pct(urg_hit, len(labelled)),
          }}, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nsaved -> {out_path.relative_to(ROOT)}")
 
