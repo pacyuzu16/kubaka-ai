@@ -1,0 +1,137 @@
+[
+  {
+    "id": "RW-005",
+    "language": "rw",
+    "input": "moteri irashyuha cyane kandi amazi arigenda",
+    "gold_category": "engine",
+    "gold_subcategory": "eng_overheat",
+    "gold_urgency": "critical",
+    "notes": "engine overheating, coolant disappearing"
+  },
+  {
+    "id": "RW-006",
+    "language": "rw",
+    "input": "imashini iravuza umwotsi wirabura",
+    "gold_category": "engine",
+    "gold_subcategory": "eng_smoke",
+    "gold_urgency": "medium",
+    "notes": "black smoke from exhaust"
+  },
+  {
+    "id": "RW-007",
+    "language": "rw",
+    "input": "moteri irasakuza nk'ikintu kimenetse",
+    "gold_category": "engine",
+    "gold_subcategory": "eng_noise",
+    "gold_urgency": "critical",
+    "notes": "engine knocking loudly"
+  },
+  {
+    "id": "RW-008",
+    "language": "rw",
+    "input": "ntabwo ifite imbaraga iyo nzamuka",
+    "gold_category": "engine",
+    "gold_subcategory": "eng_power",
+    "gold_urgency": "medium",
+    "notes": "loses power going uphill"
+  },
+  {
+    "id": "RW-009",
+    "language": "rw",
+    "input": "ibiziga (chenille) birekuye cyane",
+    "gold_category": "undercarriage",
+    "gold_subcategory": "und_tension",
+    "gold_urgency": "medium",
+    "notes": "track is too loose and slapping"
+  },
+  {
+    "id": "RW-010",
+    "language": "rw",
+    "input": "imashini ijya ibumoso iyo ngenda",
+    "gold_category": "undercarriage",
+    "gold_subcategory": "und_align",
+    "gold_urgency": "medium",
+    "notes": "machine pulls to one side"
+  },
+  {
+    "id": "RW-011",
+    "language": "rw",
+    "input": "bateri irangira buri joro",
+    "gold_category": "electrical",
+    "gold_subcategory": "ele_charge",
+    "gold_urgency": "medium",
+    "notes": "battery flat every morning"
+  },
+  {
+    "id": "RW-012",
+    "language": "rw",
+    "input": "numva impumuro y'ibyotswa",
+    "gold_category": "electrical",
+    "gold_subcategory": "ele_wiring",
+    "gold_urgency": "high",
+    "notes": "burning smell, fuse blowing"
+  },
+  {
+    "id": "RW-013",
+    "language": "rw",
+    "input": "ikirahuri cy'imbere kigaragaza error",
+    "gold_category": "electrical",
+    "gold_subcategory": "ele_display",
+    "gold_urgency": "low",
+    "notes": "display showing an error code"
+  },
+  {
+    "id": "RW-014",
+    "language": "rw",
+    "input": "moteri irazamuka ariko imashini ntigenda",
+    "gold_category": "transmission",
+    "gold_subcategory": "trn_slip",
+    "gold_urgency": "high",
+    "notes": "engine revs but machine barely moves"
+  },
+  {
+    "id": "RW-015",
+    "language": "rw",
+    "input": "fureni ntizikora neza, bitinda guhagarara",
+    "gold_category": "transmission",
+    "gold_subcategory": "trn_brake",
+    "gold_urgency": "critical",
+    "notes": "brakes soft, long stopping distance"
+  },
+  {
+    "id": "RW-016",
+    "language": "rw",
+    "input": "hari agace kamenetse ku kuboko",
+    "gold_category": "structure",
+    "gold_subcategory": "str_crack",
+    "gold_urgency": "critical",
+    "notes": "crack on the boom"
+  },
+  {
+    "id": "RW-017",
+    "language": "rw",
+    "input": "amenyo y'igikombe yashize",
+    "gold_category": "structure",
+    "gold_subcategory": "str_bucket",
+    "gold_urgency": "low",
+    "notes": "bucket teeth worn flat"
+  },
+  {
+    "id": "RW-018",
+    "language": "rw",
+    "input": "igikombe kimanuka cyonyine",
+    "gold_category": "hydraulic",
+    "gold_subcategory": "hyd_drift",
+    "gold_urgency": "critical",
+    "notes": "bucket sinks on its own when parked"
+  },
+  {
+    "id": "RW-019",
+    "language": "rw",
+    "input": "pompe iravuza cyane",
+    "gold_category": "hydraulic",
+    "gold_subcategory": "hyd_noise",
+    "gold_urgency": "high",
+    "notes": "pump whining loudly"
+  }
+]
