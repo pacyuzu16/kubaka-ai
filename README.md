@@ -98,8 +98,8 @@ python -c "from src.llm import health; print(health())"
 # one message, full pipeline
 python -m src.pipeline "the boom is leaking oil and moves slowly"
 
-# demo interface
-streamlit run app/app.py
+# demo interface  ->  http://localhost:8000
+python -m app.server
 
 # evaluation
 python -m eval.run_eval --limit 5     # smoke test
@@ -132,7 +132,8 @@ src/llm.py                    pluggable backend (claude_cli | gemini | anthropic
 src/config.py                 configuration
 eval/run_eval.py              evaluation run
 eval/analyse.py               analysis: wrong vs abstained, per language
-app/app.py                    demo interface
+app/server.py                 demo server (standard library only)
+app/static/                   demo front-end (html / css / js)
 ```
 
 ## Team

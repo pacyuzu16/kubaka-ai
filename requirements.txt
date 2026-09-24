@@ -1,6 +1,5 @@
-# Core — needed for every backend
+# Core — the demo server uses only the Python standard library
 python-dotenv>=1.0.0
-streamlit>=1.38.0
 
 # Backends are optional. The default (claude_cli) needs NEITHER of these:
 #   KUBAKA_BACKEND=claude_cli  ->  npm i -g @anthropic-ai/claude-code && claude login

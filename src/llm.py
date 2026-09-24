@@ -100,10 +100,28 @@ def which_backend():
     return BACKEND
 
 
-def health():
-    """Cheap check that the configured backend actually answers."""
+def health(live=False):
+    """Check the backend is usable.
+
+    By default this is a cheap configuration check (binary present, key
+    set) and costs nothing. Pass live=True to actually round-trip a
+    prompt, which on the CLI backend takes ~10s.
+    """
     try:
-        out = complete('Reply with exactly: OK')
-        return True, f"{BACKEND}: {out[:60]}"
+        if live:
+            out = complete("Reply with exactly: OK")
+            return True, f"{BACKEND}: {out[:60]}"
+        if BACKEND == "claude_cli":
+            if not shutil.which("claude"):
+                raise BackendError("`claude` not on PATH — npm i -g @anthropic-ai/claude-code")
+        elif BACKEND == "gemini":
+            if not GOOGLE_API_KEY:
+                raise BackendError("GOOGLE_API_KEY not set")
+        elif BACKEND == "anthropic":
+            if not ANTHROPIC_API_KEY:
+                raise BackendError("ANTHROPIC_API_KEY not set")
+        else:
+            raise BackendError(f"unknown backend {BACKEND!r}")
+        return True, f"{BACKEND}: configured"
     except Exception as exc:
         return False, f"{BACKEND}: {exc}"

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KUBAKA AI — Multilingual Fault Triage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">K</div>
+    <div class="brandtext">
+      <h1>KUBAKA AI</h1>
+      <p>Multilingual fault triage for construction equipment</p>
+    </div>
+  </div>
+  <div class="topmeta">
+    <div class="langs">
+      <span>English</span><span>Français</span><span>Kinyarwanda</span><span>Kiswahili</span>
+    </div>
+    <div class="status" id="status"><i></i><span>connecting…</span></div>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- ── OPERATOR ─────────────────────────────── -->
+  <section class="col">
+    <div class="colhead">
+      <h2>Operator</h2>
+      <p>However the operator actually talks — no technical terms, any language.</p>
+    </div>
+
+    <div class="phone">
+      <div class="phonebar">
+        <div class="avatar">KA</div>
+        <div>
+          <strong>KUBAKA AI</strong>
+          <small id="presence">online</small>
+        </div>
+      </div>
+      <div class="chat" id="chat">
+        <div class="day">today</div>
+      </div>
+      <form class="composer" id="composer" autocomplete="off">
+        <input id="msg" placeholder="Describe the problem…" autocomplete="off">
+        <button id="send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="examples">
+      <span class="exlabel">Try</span>
+      <button class="chip" data-lang="rw" data-msg="igikombe kimanuka cyonyine kandi iri kuvuza amavuta">🇷🇼 bucket sinks + oil leak</button>
+      <button class="chip" data-lang="fr" data-msg="le moteur chauffe beaucoup et perd de la puissance">🇫🇷 overheating + power loss</button>
+      <button class="chip" data-lang="en" data-msg="there is a crack starting on the boom weld">🇬🇧 crack on the boom</button>
+      <button class="chip ghost" data-lang="en" data-msg="something is wrong with it">⚠️ too vague — watch it refuse</button>
+    </div>
+  </section>
+
+  <!-- ── DEALER ───────────────────────────────── -->
+  <section class="col">
+    <div class="colhead">
+      <h2>Dealer console</h2>
+      <p>The structured service ticket generated from that message.</p>
+    </div>
+
+    <div class="panel" id="panel">
+
+      <div class="empty" id="empty">
+        <svg viewBox="0 0 24 24" width="30" height="30"><path fill="currentColor" d="M20 6h-3V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2M9 4h6v2H9Z"/></svg>
+        <p>Send a message to generate a ticket</p>
+      </div>
+
+      <div class="steps" id="steps" hidden>
+        <div class="step" data-s="1"><i></i><div><strong>Language detection</strong><small>identify and translate faithfully</small></div></div>
+        <div class="step" data-s="2"><i></i><div><strong>Symptom extraction</strong><small>only what was actually said</small></div></div>
+        <div class="step" data-s="3"><i></i><div><strong>Taxonomy mapping</strong><small>1 of 35 leaf faults, with confidence</small></div></div>
+        <div class="step" data-s="4"><i></i><div><strong>Cause ranking</strong><small>causes, parts, urgency</small></div></div>
+        <div class="step" data-s="5"><i></i><div><strong>Reply generation</strong><small>in the operator's language</small></div></div>
+      </div>
+
+      <article class="ticket" id="ticket" hidden></article>
+
+      <div class="abstain" id="abstain" hidden>
+        <div class="abicon">?</div>
+        <h3>Escalated to a human</h3>
+        <p id="abtext"></p>
+        <div class="abnote">The system declined to classify rather than guess. On equipment where a missed structural crack or brake fault can injure someone, refusing is the correct output.</div>
+      </div>
+
+      <div class="failed" id="failed" hidden></div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>15th China Innovation &amp; Entrepreneurship Competition · “AI + Construction Machinery” · Team Group · AI + Operations</span>
+  <span>School of ICT, University of Rwanda</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
