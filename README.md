@@ -8,6 +8,10 @@ Built for the 15th China Innovation & Entrepreneurship Competition, **"AI + Cons
 
 *Kubaka* means "to build" in Kinyarwanda.
 
+![KUBAKA AI demo](docs/figures/demo-ui.png)
+
+*An English report classified as `str_crack` at critical urgency, 85% confidence — with lock-out instructions and an NDT inspection requirement. The operator sees a reply in their own language; the dealer sees a structured ticket.*
+
 ---
 
 ## Results
@@ -31,6 +35,12 @@ Built for the 15th China Innovation & Entrepreneurship Competition, **"AI + Cons
 
 Swahili has only 2 cases and supports no conclusion; it is listed for completeness.
 
+### Safety-critical faults
+
+8 of the 35 leaves carry a CRITICAL baseline — structural crack, brake failure, cylinder drift, thermal runaway, HV insulation. Of **21 such cases in the test set: 20 identified correctly, 1 escalated to a human, 0 misclassified, and 0 silent downgrades.** No safety-critical fault was ever quietly treated as routine.
+
+![Calibration](docs/figures/calibration.png)
+
 **The headline finding is in the failure mode, not the accuracy.** On Kinyarwanda the system abstains 26.3% of the time but is 92.9% correct when it commits. The low-resource-language gap shows up as *appropriate uncertainty*, not confident error — the correct way to degrade in a domain where a missed structural crack or brake fault can kill someone. Confidence is meaningfully calibrated: mean 0.67 when correct, 0.50 when wrong.
 
 ## The problem
@@ -51,6 +61,8 @@ Operator message (rw / sw / fr / en)
         ├─→ reply to operator
         └─→ structured ticket to dealer
 ```
+
+![Pipeline](docs/figures/architecture.png)
 
 `classify()` runs steps 1–3 in a **single model call** — cheap enough to evaluate the whole test set. `triage()` runs the full flow for live use.
 
